@@ -40,7 +40,6 @@ function filterResults(type){
   var container = itemsArray.filter(function(item, i){
     return item["service_name"] === type;
   });
-  console.log(container);
 return container;
 }
 
@@ -69,11 +68,14 @@ function checkMainNodeLength(){
   if (mainNodesLength > 1){
     var latestNode = mainNodes[mainNodesLength-1];
     if (checkRowNodeLength(latestNode)){
+      console.log('there');
       return latestNode;
     }else {
+      console.log('there there');
       return createRow();
     }
   }else {
+    console.log('here');
     return createRow();
   }
 }
@@ -87,7 +89,7 @@ function checkRowNodeLength(node){
 }
 
 function instaStuff(){
-  var outerContainer = checkMainNodeLength();
+var outerContainer = checkMainNodeLength();
 // $("#main")[0].childNodes[1].childNodes.length
   instaGramItems = filterResults("Instagram");
   for(var i = 0; i < instaGramItems.length; i++){
@@ -99,7 +101,13 @@ function instaStuff(){
     pTag.innerText = obj["caption"];
     col.appendChild(imgTag);
     col.appendChild(pTag);
-    outerContainer.appendChild(col);
+    if (outerContainer.childElementCount < 3){
+      outerContainer.appendChild(col);
+    }else {
+      outerContainer = checkMainNodeLength();
+      outerContainer.appendChild(col);
+    }
+
   }
   $("#main").append(rowDiv);
 }
