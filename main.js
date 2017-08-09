@@ -23,6 +23,7 @@ function loadData(){
     filterResults("Twitter", "twitterItems");
   },
   error: function (error) {
+    $("#error").html(error.responseJSON["error"]);
   },
 });
 }
