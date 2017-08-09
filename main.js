@@ -1,5 +1,10 @@
+var manualItems;
+var instaGramItems;
+var twitterItems;
+
 $(document).ready(function() {
     loadData();
+
 });
 
 
@@ -13,6 +18,9 @@ function loadData(){
   },
   success: function (data) {
     content = JSON.parse(data);
+    filterResults("Manual", "manualItems");
+    filterResults("Instagram", "instaGramItems");
+    filterResults("Twitter", "twitterItems");
   },
   error: function (error) {
   },
@@ -21,6 +29,10 @@ function loadData(){
 
 
 
-function showThings(){
-  debugger
+function filterResults(type, container){
+  var itemsArray = content["items "];
+  container = itemsArray.filter(function(item, i){
+    return item["service_name"] === type;
+  });
+console.log(container);
 }
