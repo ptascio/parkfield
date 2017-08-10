@@ -126,13 +126,15 @@ function twitterStuff(){
       var obj = twitterItems[i]["item_data"];
       imgTag = document.createElement("img");
       h2Tag = document.createElement("h2");
-      pTag = document.createElement("p");
+      pTag = document.createElement("div");
       imgTag.setAttribute("src", obj["user"]["avatar"]);
-      pTag.innerHTML = myregEx(obj["tweet"]);
+      var sent = myregEx(obj["tweet"]);
+      var sentContainer = document.createElement("div");
+      sentContainer.appendChild(sent);
       h2Tag.innerText = obj["user"]["username"];
       col.appendChild(h2Tag);
       col.appendChild(imgTag);
-      col.appendChild(pTag);
+      col.appendChild(sentContainer);
       if (outerContainer.childElementCount < 3){
         outerContainer.appendChild(col);
       }else {
@@ -154,20 +156,34 @@ function myregEx(sentence){
   if (matches){
     return parseURLs(sentence, matches);
   }else {
-    return sentence;
+    var things = document.createElement("p");
+    things.innerText = sentence;
+    return things;
   }
 }
 
 function parseURLs(sentence, matches){
-  pTag = document.createElement("p");
-  pTag.innerText = sentence;
+  var sentArr = sentence.split(" ");
+  var newP = document.createElement("p");
+  var beginning;
+  var end;
   for (var i = 0; i < matches.length; i++){
+    var matchIdx = sentArr.indexOf(matches[i]);
     aTag = document.createElement("a");
-    aTag.innerHTML = matches[i];
-    pTag.replace(matches[i], aTag);
+    aTag.innerText = matches[i];
+    beginning = sentArr.slice(0, matchIdx);
+    end = sentArr.slice((matchIdx+1), (sentArr.length));
+    aTag.setAttribute("href", matches[i]);
+    aTag.setAttribute("target", "blank");
+
   }
-  // pTag = document.createElement("p");
-  // pTag.innerHTML = sentence;
-  return pTag;
-  // return sentence;
+
+  var p1 = document.createElement("span");
+  var p2 = document.createElement("span");
+  p1.innerText = beginning.join(" ");
+  p2.innerText = end.join(" ");
+  newP.appendChild(p1);
+  newP.appendChild(aTag);
+  newP.appendChild(p2);
+  return newP;
 }
