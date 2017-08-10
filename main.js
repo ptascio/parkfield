@@ -5,6 +5,7 @@ var rowDiv;
 var colDiv;
 var imgTag;
 var pTag;
+var h2Tag;
 
 
 $(document).ready(function() {
@@ -18,7 +19,7 @@ function loadData(){
     url: "https://content.dropboxapi.com/1/files/auto/posts.json",
     type: 'GET',
     headers: {
-      "Authorization": "Bearer ",
+      "Authorization": "Bearer AkpoFy1WulgAAAAAAAAAfvVbPMzpOCMhfnekIX_OhQVk3yV6STBNLCinhWKXupnZ",
   },
   success: function (data) {
     content = JSON.parse(data);
@@ -110,4 +111,31 @@ var outerContainer = checkMainNodeLength();
 
   }
   $("#main").append(rowDiv);
+}
+
+function twitterStuff(){
+  var outerContainer = checkMainNodeLength();
+  // $("#main")[0].childNodes[1].childNodes.length
+    twitterItems = filterResults("Twitter");
+    for(var i = 0; i < twitterItems.length; i++){
+      var col = createCol();
+      var obj = twitterItems[i]["item_data"];
+      imgTag = document.createElement("img");
+      h2Tag = document.createElement("h2");
+      pTag = document.createElement("p");
+      imgTag.setAttribute("src", obj["user"]["avatar"]);
+      pTag.innerText = obj["tweet"];
+      h2Tag.innerText = obj["user"]["username"];
+      col.appendChild(h2Tag);
+      col.appendChild(imgTag);
+      col.appendChild(pTag);
+      if (outerContainer.childElementCount < 3){
+        outerContainer.appendChild(col);
+      }else {
+        outerContainer = checkMainNodeLength();
+        outerContainer.appendChild(col);
+      }
+
+    }
+    $("#main").append(rowDiv);
 }
