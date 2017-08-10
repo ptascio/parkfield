@@ -41,6 +41,9 @@ function filterResults(type){
   var container = itemsArray.filter(function(item, i){
     return item["service_name"] === type;
   });
+  if (type === "Instagram"){
+    console.log(container);
+  }
 return container;
 }
 
@@ -69,14 +72,11 @@ function checkMainNodeLength(){
   if (mainNodesLength > 1){
     var latestNode = mainNodes[mainNodesLength-1];
     if (checkRowNodeLength(latestNode)){
-      console.log('there');
       return latestNode;
     }else {
-      console.log('there there');
       return createRow();
     }
   }else {
-    console.log('here');
     return createRow();
   }
 }
@@ -98,19 +98,25 @@ var outerContainer = checkMainNodeLength();
     var obj = instaGramItems[i]["item_data"];
     imgTag = document.createElement("img");
     pTag = document.createElement("p");
+    h2Tag = document.createElement("h2");
     imgTag.setAttribute("src", obj["image"]["medium"]);
     pTag.innerText = obj["caption"];
+    h2Tag.innerText = obj["user"]["username"];
     col.appendChild(imgTag);
+    col.appendChild(h2Tag);
     col.appendChild(pTag);
     if (outerContainer.childElementCount < 3){
       outerContainer.appendChild(col);
     }else {
+      $("#main").append(outerContainer);
       outerContainer = checkMainNodeLength();
       outerContainer.appendChild(col);
     }
 
   }
-  $("#main").append(rowDiv);
+  if (outerContainer){
+    $("#main").append(outerContainer);
+  }
 }
 
 function twitterStuff(){
@@ -132,10 +138,14 @@ function twitterStuff(){
       if (outerContainer.childElementCount < 3){
         outerContainer.appendChild(col);
       }else {
+        $("#main").append(outerContainer);
         outerContainer = checkMainNodeLength();
         outerContainer.appendChild(col);
       }
-
     }
-    $("#main").append(rowDiv);
+
+if (outerContainer){
+  $("#main").append(outerContainer);
+}
+
 }
