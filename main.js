@@ -6,6 +6,7 @@ var colDiv;
 var imgTag;
 var pTag;
 var h2Tag;
+var aTag;
 
 
 $(document).ready(function() {
@@ -41,9 +42,6 @@ function filterResults(type){
   var container = itemsArray.filter(function(item, i){
     return item["service_name"] === type;
   });
-  if (type === "Instagram"){
-    console.log(container);
-  }
 return container;
 }
 
@@ -97,10 +95,10 @@ var outerContainer = checkMainNodeLength();
     var col = createCol();
     var obj = instaGramItems[i]["item_data"];
     imgTag = document.createElement("img");
-    pTag = document.createElement("p");
+    // pTag = document.createElement("p");
     h2Tag = document.createElement("h2");
     imgTag.setAttribute("src", obj["image"]["medium"]);
-    pTag.innerText = obj["caption"];
+    pTag = myregEx(obj["caption"]);
     h2Tag.innerText = obj["user"]["username"];
     col.appendChild(imgTag);
     col.appendChild(h2Tag);
@@ -130,7 +128,7 @@ function twitterStuff(){
       h2Tag = document.createElement("h2");
       pTag = document.createElement("p");
       imgTag.setAttribute("src", obj["user"]["avatar"]);
-      pTag.innerText = obj["tweet"];
+      pTag.innerHTML = myregEx(obj["tweet"]);
       h2Tag.innerText = obj["user"]["username"];
       col.appendChild(h2Tag);
       col.appendChild(imgTag);
@@ -147,5 +145,29 @@ function twitterStuff(){
 if (outerContainer){
   $("#main").append(outerContainer);
 }
+}
 
+
+function myregEx(sentence){
+  var myReg = /(https?:\/\/[^\s]+)/g;
+  var matches = sentence.match(myReg);
+  if (matches){
+    return parseURLs(sentence, matches);
+  }else {
+    return sentence;
+  }
+}
+
+function parseURLs(sentence, matches){
+  pTag = document.createElement("p");
+  pTag.innerText = sentence;
+  for (var i = 0; i < matches.length; i++){
+    aTag = document.createElement("a");
+    aTag.innerHTML = matches[i];
+    pTag.replace(matches[i], aTag);
+  }
+  // pTag = document.createElement("p");
+  // pTag.innerHTML = sentence;
+  return pTag;
+  // return sentence;
 }
