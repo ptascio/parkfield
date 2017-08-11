@@ -42,7 +42,6 @@ function filterResults(type){
   var container = itemsArray.filter(function(item, i){
     return item["service_name"] === type;
   });
-  removeOtherNodes(type);
   return container;
 }
 
@@ -66,13 +65,13 @@ function createRow(){
   return rowDiv;
 }
 
-function createCol(){
+function createCol(classname){
   colDiv = document.createElement("div");
-  colDiv.className = "col-sm-4";
+  colDiv.className = "col-sm-4 " + classname;
   return colDiv;
 }
 
-function checkMainNodeLength(){
+function checkMainNodeLength(classname){
   var mainNodes = $("#main")[0].childNodes;
   var mainNodesLength = $("#main")[0].childNodes.length;
   if (mainNodesLength > 1){
@@ -80,10 +79,10 @@ function checkMainNodeLength(){
     if (checkRowNodeLength(latestNode)){
       return latestNode;
     }else {
-      return createRow();
+      return createRow(classname);
     }
   }else {
-    return createRow();
+    return createRow(classname);
   }
 }
 
@@ -95,22 +94,32 @@ function checkRowNodeLength(node){
   }
 }
 
-function findInstaStuff(){
-  var instas = document.getElementsByClassName("instagram");
-  var parent = instas[0].parentElement;
-  while (instas.length > 0){
-    instas[0].parentNode.removeChild(instas[0]);
+
+var classnames = ["manual", "twitter", "instagram"];
+function filterItems(classname){
+  for (var i = 0; i < classnames.length; i++){
+    if (classnames[i] !== classname){
+      deleteNodes(classnames[i]);
+    }
   }
+}
+
+function deleteNodes(classname){
+  var elmnts = document.getElementsByClassName(classname);
+    while (elmnts.length > 0){
+      elmnts[0].parentNode.removeChild(elmnts[0]);
+    }
 }
 
 
 function instaStuff(){
+  filterItems("instagram");
 var outerContainer = checkMainNodeLength();
 // $("#main")[0].childNodes[1].childNodes.length
   instaGramItems = filterResults("Instagram");
-  outerContainer.classList += " instagram";
+
   for(var i = 0; i < instaGramItems.length; i++){
-    var col = createCol();
+    var col = createCol("instagram");
     var obj = instaGramItems[i]["item_data"];
     imgTag = document.createElement("img");
     // pTag = document.createElement("p");
@@ -136,11 +145,12 @@ var outerContainer = checkMainNodeLength();
 }
 
 function twitterStuff(){
+  filterItems("twitter");
   var outerContainer = checkMainNodeLength();
   // $("#main")[0].childNodes[1].childNodes.length
     twitterItems = filterResults("Twitter");
     for(var i = 0; i < twitterItems.length; i++){
-      var col = createCol();
+      var col = createCol("twitter");
       var obj = twitterItems[i]["item_data"];
       h2Tag = document.createElement("h2");
       pTag = document.createElement("div");
@@ -165,10 +175,11 @@ if (outerContainer){
 }
 
 function manualStuff(){
+  filterItems("manual");
   var outerContainer = checkMainNodeLength();
     manualItems = filterResults("Manual");
     for(var i = 0; i < manualItems.length; i++){
-      var col = createCol();
+      var col = createCol("manual");
       var obj = manualItems[i]["item_data"];
       imgTag = document.createElement("img");
       pTag = document.createElement("p");
