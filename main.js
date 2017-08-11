@@ -42,10 +42,15 @@ function filterResults(type){
   var container = itemsArray.filter(function(item, i){
     return item["service_name"] === type;
   });
-  if (type === "Manual"){
-    console.log(container);
+  removeOtherNodes(type);
+  return container;
+}
+
+function removeOtherNodes(type){
+  var mainNode = document.getElementById('main');
+  for (var i = 0; i < mainNode.childNodes.length; i++){
+    console.log(mainNode[i]);
   }
-return container;
 }
 
 function createEntry(){
@@ -90,10 +95,20 @@ function checkRowNodeLength(node){
   }
 }
 
+function findInstaStuff(){
+  var instas = document.getElementsByClassName("instagram");
+  var parent = instas[0].parentElement;
+  while (instas.length > 0){
+    instas[0].parentNode.removeChild(instas[0]);
+  }
+}
+
+
 function instaStuff(){
 var outerContainer = checkMainNodeLength();
 // $("#main")[0].childNodes[1].childNodes.length
   instaGramItems = filterResults("Instagram");
+  outerContainer.classList += " instagram";
   for(var i = 0; i < instaGramItems.length; i++){
     var col = createCol();
     var obj = instaGramItems[i]["item_data"];
@@ -151,22 +166,22 @@ if (outerContainer){
 
 function manualStuff(){
   var outerContainer = checkMainNodeLength();
-  // $("#main")[0].childNodes[1].childNodes.length
-    manualItems = filterResults("Twitter");
+    manualItems = filterResults("Manual");
     for(var i = 0; i < manualItems.length; i++){
       var col = createCol();
       var obj = manualItems[i]["item_data"];
       imgTag = document.createElement("img");
-      h2Tag = document.createElement("h2");
-      pTag = document.createElement("div");
+      pTag = document.createElement("p");
+      aTag = document.createElement("a");
+      pTag.innerText = obj["text"];
+      pTag.className = "manual";
+      aTag.innerText = obj["link_text"];
+      aTag.href = obj["link"];
+      aTag.setAttribute("target", "blank");
       imgTag.setAttribute("src", obj["image_url"]);
-      var sent = myregEx(obj["tweet"]);
-      var sentContainer = document.createElement("div");
-      sentContainer.appendChild(sent);
-      h2Tag.innerText = obj["user"]["username"];
-      col.appendChild(h2Tag);
       col.appendChild(imgTag);
-      col.appendChild(sentContainer);
+      col.appendChild(pTag);
+      col.appendChild(aTag);
       if (outerContainer.childElementCount < 3){
         outerContainer.appendChild(col);
       }else {
