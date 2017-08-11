@@ -20,7 +20,7 @@ function loadData(){
     url: "https://content.dropboxapi.com/1/files/auto/posts.json",
     type: 'GET',
     headers: {
-      "Authorization": "Bearer ",
+      "Authorization": "Bearer AkpoFy1WulgAAAAAAAAAfvVbPMzpOCMhfnekIX_OhQVk3yV6STBNLCinhWKXupnZ",
   },
   success: function (data) {
     content = JSON.parse(data);
@@ -42,6 +42,9 @@ function filterResults(type){
   var container = itemsArray.filter(function(item, i){
     return item["service_name"] === type;
   });
+  if (type === "Manual"){
+    console.log(container);
+  }
 return container;
 }
 
@@ -124,10 +127,39 @@ function twitterStuff(){
     for(var i = 0; i < twitterItems.length; i++){
       var col = createCol();
       var obj = twitterItems[i]["item_data"];
+      h2Tag = document.createElement("h2");
+      pTag = document.createElement("div");
+      var sent = myregEx(obj["tweet"]);
+      var sentContainer = document.createElement("div");
+      sentContainer.appendChild(sent);
+      h2Tag.innerText = obj["user"]["username"];
+      col.appendChild(h2Tag);
+      col.appendChild(sentContainer);
+      if (outerContainer.childElementCount < 3){
+        outerContainer.appendChild(col);
+      }else {
+        $("#main").append(outerContainer);
+        outerContainer = checkMainNodeLength();
+        outerContainer.appendChild(col);
+      }
+    }
+
+if (outerContainer){
+  $("#main").append(outerContainer);
+}
+}
+
+function manualStuff(){
+  var outerContainer = checkMainNodeLength();
+  // $("#main")[0].childNodes[1].childNodes.length
+    manualItems = filterResults("Twitter");
+    for(var i = 0; i < manualItems.length; i++){
+      var col = createCol();
+      var obj = manualItems[i]["item_data"];
       imgTag = document.createElement("img");
       h2Tag = document.createElement("h2");
       pTag = document.createElement("div");
-      imgTag.setAttribute("src", obj["user"]["avatar"]);
+      imgTag.setAttribute("src", obj["image_url"]);
       var sent = myregEx(obj["tweet"]);
       var sentContainer = document.createElement("div");
       sentContainer.appendChild(sent);
@@ -180,8 +212,8 @@ function parseURLs(sentence, matches){
 
   var p1 = document.createElement("span");
   var p2 = document.createElement("span");
-  p1.innerText = beginning.join(" ");
-  p2.innerText = end.join(" ");
+  p1.innerText = beginning.join(" ") + " ";
+  p2.innerText = " " + end.join(" ");
   newP.appendChild(p1);
   newP.appendChild(aTag);
   newP.appendChild(p2);
