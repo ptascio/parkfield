@@ -6,3 +6,8 @@ img {
 .col-sm-4 {
   border: 1px solid #000;
 }
+
+.load-btn {
+  position: fixed;
+  z-index: 1;
+}
