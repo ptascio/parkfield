@@ -261,9 +261,9 @@ function parseURLs(sentence, matches){
 function loadAllItems(){
   var itemsArray = content["items "];
   var outerContainer = checkMainNodeLength();
-  console.log(itemCount);
   if (itemCount === itemsArray.length){
     itemCount = 0;
+    loadCount = 0;
   }
   for (var i = itemCount; i < itemsArray.length; i++){
     if ((loadCount > 0) && (loadCount % 5 === 0)){
@@ -287,6 +287,7 @@ function loadAllItems(){
       outerContainer.appendChild(newCol);
     }
     itemCount+=1;
+
     loadCount+=1;
   }
   if (outerContainer){
