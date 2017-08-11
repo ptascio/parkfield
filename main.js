@@ -104,11 +104,25 @@ function filterItems(classname){
   }
 }
 
+function removeEmptyRows(){
+  var mainNode = document.getElementById("main");
+  for (var i = 1; i < mainNode.childElementCount; i++){
+    if (mainNode.childNodes[i].childElementCount === 0){
+      mainNode.removeChild(mainNode.childNodes[i]);
+    }
+  }
+}
+
+
 function deleteNodes(classname){
   var elmnts = document.getElementsByClassName(classname);
+  if (elmnts.length > 0){
+    var parent = elmnts[0].parentNode;
+  }
     while (elmnts.length > 0){
       elmnts[0].parentNode.removeChild(elmnts[0]);
     }
+    removeEmptyRows();
 }
 
 
