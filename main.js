@@ -128,8 +128,7 @@ function deleteNodes(classname){
 
 function instaStuff(){
   filterItems("instagram");
-var outerContainer = checkMainNodeLength();
-// $("#main")[0].childNodes[1].childNodes.length
+  var outerContainer = checkMainNodeLength();
   instaGramItems = filterResults("Instagram");
 
   for(var i = 0; i < instaGramItems.length; i++){
@@ -161,7 +160,6 @@ var outerContainer = checkMainNodeLength();
 function twitterStuff(){
   filterItems("twitter");
   var outerContainer = checkMainNodeLength();
-  // $("#main")[0].childNodes[1].childNodes.length
     twitterItems = filterResults("Twitter");
     for(var i = 0; i < twitterItems.length; i++){
       var col = createCol("twitter");
@@ -258,4 +256,75 @@ function parseURLs(sentence, matches){
   newP.appendChild(aTag);
   newP.appendChild(p2);
   return newP;
+}
+
+function loadAllItems(){
+  var itemsArray = content["items "];
+  var outerContainer = checkMainNodeLength();
+  for (var i = 0; i < itemsArray.length; i++){
+    var data = itemsArray[i].item_data;
+    var newCol;
+    if (itemsArray[i].service_name === "Manual"){
+      newCol = manualItem(data);
+    }else if (itemsArray[i].service_name === "Twitter") {
+      newCol = twitterItem(data);
+    }else if (itemsArray[i].service_name === "Instagram"){
+      newCol = instagramItem(data);
+    }
+    if (outerContainer.childElementCount < 3){
+      outerContainer.appendChild(newCol);
+    }else {
+      $("#main").append(outerContainer);
+      outerContainer = checkMainNodeLength();
+      outerContainer.appendChild(newCol);
+    }
+  }
+  if (outerContainer){
+    $("#main").append(outerContainer);
+  }
+}
+
+function manualItem(data){
+  var col = createCol("manual");
+  imgTag = document.createElement("img");
+  pTag = document.createElement("p");
+  aTag = document.createElement("a");
+  pTag.innerText = data["text"];
+  pTag.className = "manual";
+  aTag.innerText = data["link_text"];
+  aTag.href = data["link"];
+  aTag.setAttribute("target", "blank");
+  imgTag.setAttribute("src", data["image_url"]);
+  col.appendChild(imgTag);
+  col.appendChild(pTag);
+  col.appendChild(aTag);
+  return col;
+}
+
+function twitterItem(data){
+  var col = createCol("twitter");
+  h2Tag = document.createElement("h2");
+  pTag = document.createElement("div");
+  var sent = myregEx(data["tweet"]);
+  var sentContainer = document.createElement("div");
+  sentContainer.appendChild(sent);
+  h2Tag.innerText = data["user"]["username"];
+  col.appendChild(h2Tag);
+  col.appendChild(sentContainer);
+  return col;
+}
+
+
+function instagramItem(data){
+  var col = createCol("instagram");
+  imgTag = document.createElement("img");
+  // pTag = document.createElement("p");
+  h2Tag = document.createElement("h2");
+  imgTag.setAttribute("src", data["image"]["medium"]);
+  pTag = myregEx(data["caption"]);
+  h2Tag.innerText = data["user"]["username"];
+  col.appendChild(imgTag);
+  col.appendChild(h2Tag);
+  col.appendChild(pTag);
+  return col;
 }
