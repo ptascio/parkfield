@@ -7,10 +7,13 @@ var imgTag;
 var pTag;
 var h2Tag;
 var aTag;
+var itemCount = 0;
+var loadCount = 0;
 
 
 $(document).ready(function() {
     loadData();
+
 });
 
 
@@ -24,10 +27,7 @@ function loadData(){
   },
   success: function (data) {
     content = JSON.parse(data);
-    filterResults("Manual", "manualItems");
-    filterResults("Instagram", "instaGramItems");
-    filterResults("Twitter", "twitterItems");
-
+    loadAllItems();
   },
   error: function (error) {
     $("#error").html(error.responseJSON["error"]);
@@ -261,7 +261,15 @@ function parseURLs(sentence, matches){
 function loadAllItems(){
   var itemsArray = content["items "];
   var outerContainer = checkMainNodeLength();
-  for (var i = 0; i < itemsArray.length; i++){
+  console.log(itemCount);
+  if (itemCount === itemsArray.length){
+    itemCount = 0;
+  }
+  for (var i = itemCount; i < itemsArray.length; i++){
+    if ((loadCount > 0) && (loadCount % 5 === 0)){
+      loadCount = 0;
+      break;
+    }
     var data = itemsArray[i].item_data;
     var newCol;
     if (itemsArray[i].service_name === "Manual"){
@@ -278,6 +286,8 @@ function loadAllItems(){
       outerContainer = checkMainNodeLength();
       outerContainer.appendChild(newCol);
     }
+    itemCount+=1;
+    loadCount+=1;
   }
   if (outerContainer){
     $("#main").append(outerContainer);
