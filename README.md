@@ -33,5 +33,5 @@ When a user jumps around using the filtering buttons or loading all of the data,
   3. Content will be rendered according to the current filter's classname, so if the filter is repeatedly called, more items will load.
 
 ### Filter to All Data
-  1. If a user switches from a filter to loading all of the content, items will be called starting at the beginning of the content container.
-  2. However, if a user calls the load more button repeatedly, content is loaded 3 items at a time until all content has been loaded.  
+  1. If a user switches from a filter to loading all of the content, all content will be wiped and then items will be called starting at the beginning of the content container.
+  2. However, if a user is already rendering all of the items and calls the ```load more``` button repeatedly, content is loaded 3 items at a time until all content has been loaded.  
