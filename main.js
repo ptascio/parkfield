@@ -23,7 +23,7 @@ function loadData(){
     url: "https://content.dropboxapi.com/1/files/auto/posts.json",
     type: 'GET',
     headers: {
-      "Authorization": "Bearer ",
+      "Authorization": "Bearer AkpoFy1WulgAAAAAAAAAfvVbPMzpOCMhfnekIX_OhQVk3yV6STBNLCinhWKXupnZ",
   },
   success: function (data) {
     content = JSON.parse(data);
@@ -266,7 +266,7 @@ function loadAllItems(){
     loadCount = 0;
   }
   for (var i = itemCount; i < itemsArray.length; i++){
-    if ((loadCount > 0) && (loadCount % 5 === 0)){
+    if ((loadCount > 0) && (loadCount % 3 === 0)){
       loadCount = 0;
       break;
     }

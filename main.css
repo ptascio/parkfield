@@ -3,6 +3,21 @@ img {
   width: 100%;
 }
 
+.h1-background {
+  background: #333333;
+}
+
+#h1-overwrite {
+  font-family: 'Zilla Slab', serif;
+  color: #fff
+}
+
+h2,
+button,
+p {
+  font-family: 'Poppins', sans-serif;
+}
+
 .col-sm-4 {
   border: 1px solid #000;
 }
