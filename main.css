@@ -1,5 +1,6 @@
 body {
   margin: 2%;
+  background: #d3d3d3;
 }
 
 
@@ -21,10 +22,6 @@ h2,
 button,
 p {
   font-family: 'Poppins', sans-serif;
-}
-
-.col-sm-4 {
-  border: 1px solid #000;
 }
 
 .load-btn {
@@ -58,7 +55,11 @@ p {
   outline: none;
 }
 
+#main {
+  background: #e6e6e6;
+}
+
 #main > .row > .col-sm-4 {
   padding: 25px;
-  border: none;
+  background: #e6e6e6;
 }
