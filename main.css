@@ -28,3 +28,32 @@ p {
   bottom: 0;
   right: 0;
 }
+
+.filter-nav > .col-sm-4 {
+  padding: 10px 0 5px 0;
+  border: none;
+}
+
+.filter-nav > .col-sm-4 > button,
+.load-btn > .col-sm-12 > button {
+  padding: 10px;
+  background: #333333;
+  color: #fff;
+  border: 1px solid #333333;
+}
+
+.filter-nav > .col-sm-4 > button:hover,
+.load-btn > .col-sm-12 > button:hover  {
+  background: #fff;
+  color: #333;
+}
+
+.filter-nav > .col-sm-4 > button:focus,
+.load-btn > .col-sm-12 > button:focus {
+  outline: none;
+}
+
+#main > .row > .col-sm-4 {
+  padding: 25px;
+  border: none;
+}
