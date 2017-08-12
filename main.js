@@ -9,6 +9,8 @@ var h2Tag;
 var aTag;
 var itemCount = 0;
 var loadCount = 0;
+var filter = false;
+var loadAll = false;
 
 
 $(document).ready(function() {
@@ -45,16 +47,8 @@ function filterResults(type){
   return container;
 }
 
-function removeOtherNodes(type){
-  var mainNode = document.getElementById('main');
-  for (var i = 0; i < mainNode.childNodes.length; i++){
-    console.log(mainNode[i]);
-  }
-}
 
 function createEntry(){
-
-
   rowDiv.appendChild(colDiv);
   return rowDiv;
 }
@@ -73,8 +67,8 @@ function createCol(classname){
 
 function checkMainNodeLength(classname){
   var mainNodes = $("#main")[0].childNodes;
-  var mainNodesLength = $("#main")[0].childNodes.length;
-  if (mainNodesLength > 1){
+  var mainNodesLength = mainNodes.length;
+  if (mainNodesLength >= 1){
     var latestNode = mainNodes[mainNodesLength-1];
     if (checkRowNodeLength(latestNode)){
       return latestNode;
@@ -127,6 +121,11 @@ function deleteNodes(classname){
 
 
 function instaStuff(){
+  if (filter === false){
+    clearAll();
+    filter = true;
+    loadAll = false;
+  }
   filterItems("instagram");
   var outerContainer = checkMainNodeLength();
   instaGramItems = filterResults("Instagram");
@@ -158,6 +157,11 @@ function instaStuff(){
 }
 
 function twitterStuff(){
+  if (filter === false){
+    clearAll();
+    filter = true;
+    loadAll = false;
+  }
   filterItems("twitter");
   var outerContainer = checkMainNodeLength();
     twitterItems = filterResults("Twitter");
@@ -187,6 +191,11 @@ if (outerContainer){
 }
 
 function manualStuff(){
+  if (filter === false){
+    clearAll();
+    filter = true;
+    loadAll = false;
+  }
   filterItems("manual");
   var outerContainer = checkMainNodeLength();
     manualItems = filterResults("Manual");
@@ -259,6 +268,14 @@ function parseURLs(sentence, matches){
 }
 
 function loadAllItems(){
+  if (loadAll === false){
+    clearAll();
+    itemCount = 0;
+    loadCount = 0;
+    loadAll = true;
+    filter = false;
+  }
+
   var itemsArray = content["items "];
   var outerContainer = checkMainNodeLength();
   if (itemCount === itemsArray.length){
@@ -338,4 +355,11 @@ function instagramItem(data){
   col.appendChild(h2Tag);
   col.appendChild(pTag);
   return col;
+}
+
+function clearAll(){
+  var mainNode = document.getElementById("main");
+  while (mainNode.firstChild){
+    mainNode.removeChild(mainNode.firstChild);
+  }
 }

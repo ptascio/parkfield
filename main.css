@@ -38,6 +38,7 @@ p {
 
 .filter-nav > .col-sm-4 > button,
 .load-btn > .col-sm-12 > button {
+  letter-spacing: 2px;
   padding: 10px;
   background: #333333;
   color: #fff;
@@ -62,4 +63,12 @@ p {
 #main > .row > .col-sm-4 {
   padding: 25px;
   background: #e6e6e6;
+}
+
+#main > .row > .col-sm-4 > img {
+  margin-bottom: 10px;
+}
+
+#main > .row > .col-sm-4 > p {
+  letter-spacing: 1px;
 }
